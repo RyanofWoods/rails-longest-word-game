@@ -23,7 +23,7 @@ class GamesController < ApplicationController
         index = check_letters.index(letter)
         check_letters.delete_at(index)
       else
-        errors << "Not all of your letters are included in the grid"
+        @errors << "Sorry but #{@answer} can't be built out of #{@letters.join(", ")}"
         all_included = false
         break
       end
