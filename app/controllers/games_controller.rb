@@ -1,3 +1,6 @@
+require 'open-uri'
+require 'json'
+
 class GamesController < ApplicationController
   def new
     @letters = []
@@ -7,7 +10,7 @@ class GamesController < ApplicationController
   def score
     @letters = params[:letters].split()
     @answer = params[:answer].upcase
-    @errors = []
+    @results = []
     check_letters = @letters.clone
     check_answer = @answer.chars
 
@@ -23,12 +26,25 @@ class GamesController < ApplicationController
         index = check_letters.index(letter)
         check_letters.delete_at(index)
       else
-        @errors << "Sorry but #{@answer} can't be built out of #{@letters.join(", ")}"
+        @results << "#{@answer} can't be built out of #{@letters.join(", ")}"
         all_included = false
         break
       end
     end
 
     # next: check if it is an english word
+    url = "https://wagon-dictionary.herokuapp.com/#{@answer}"
+    word_serialized = open(url).read
+    word_result = JSON.parse(word_serialized)
+
+    in_dictionary = word_result["found"]
+
+    unless in_dictionary
+      @results << "#{@answer} does not seem to be a valid English word..."
+    end
+
+    if in_dictionary && all_included
+      @results << "Congratulations! #{@answer} is a valid English word!"
+    end
   end
 end

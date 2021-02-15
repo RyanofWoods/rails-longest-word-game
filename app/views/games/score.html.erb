@@ -1,6 +1,6 @@
 <h1>Your score</h1>
 
-<% @errors.each do |error| %>
-<p><%= error %></p>
+<% @results.each do |result| %>
+<p><%= result %></p>
 <% end %>
 <%= link_to "Play again", new_path %>
