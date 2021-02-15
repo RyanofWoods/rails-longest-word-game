@@ -56,7 +56,12 @@ class GamesController < ApplicationController
         @results << "Congratulations! #{answer} is a valid English word!"
         @results << "You took #{seconds_taken} seconds to guess"
         @results << "You just got: #{score} points!"
-        #@results << "Your grand score:"
+        if session[:grand_score]
+          session[:grand_score] = session[:grand_score] + score
+        else
+          session[:grand_score] = score
+        end
+          @results << "Your grand score: #{session[:grand_score]}"
       end
     end
   end
