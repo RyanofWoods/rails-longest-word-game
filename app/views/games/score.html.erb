@@ -3,4 +3,9 @@
 <% @results.each do |result| %>
 <p><%= result %></p>
 <% end %>
-<%= link_to "Play again", new_path %>
+
+<%= link_to(new_path) do %>
+  <button id="btn_play-again" class="btn btn-primary" autofocus>
+    Play again
+  </button>
+<% end %>
